@@ -62,11 +62,45 @@ static void lcd_i2c_write(lcd_i2c_t *lcd, uint8_t data)
 // -----------------------------------------------------
 // user callable functions
 // -----------------------------------------------------
+/*
+ * Replacing this with my own 4 line version - MBC - 10/24/17
 void lcd_i2c_gotoxy(lcd_i2c_t *lcd, uint8_t x, uint8_t y)
 {
     // note: on two line devices, second line begins at address 0x40
     // XXX so this will work with 1 and 2 line devices, but probabaly not with 4.
     LCD_I2C_SET_DD_RAM_ADDRESS( lcd,  y*0x40 + x  );
+    lcd->x=x;
+    lcd->y=y;
+}
+*/
+void lcd_i2c_gotoxy(lcd_i2c_t *lcd, uint8_t x, uint8_t y)
+{
+   u_int8_t memSpot;
+   
+   switch (y)
+   {
+	   case 0:
+	      memSpot = x;
+	      break;
+	      
+	   case 1:
+	      memSpot = 0x40 + x;
+	      break;
+	      
+	   case 2:
+	      memSpot = 0x14 + x;
+	      break;
+	      
+	   case 3:
+	      memSpot = 0x54 + x;
+	      break;
+	      
+	   default:
+	      memSpot = x;
+	      break;
+	}
+	
+	LCD_I2C_SET_DD_RAM_ADDRESS(lcd, memSpot);
     lcd->x=x;
     lcd->y=y;
 }
