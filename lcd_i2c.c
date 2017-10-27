@@ -2,6 +2,9 @@
 // Copyright Stephen Stebbing 2014
 // $Id: $
 // ----------------------------------------------------------------
+// Changes made to lcd_i2c_gotoxy function in order to support
+// a four line display - Marshall Cummings - 10/27/17
+// ----------------------------------------------------------------
 #include "lcd_i2c.h"
 
 #include <wiringPi.h>
